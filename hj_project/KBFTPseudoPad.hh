@@ -13,8 +13,15 @@ class KBFTPseudoPad : public KBPadPlane
 		virtual ~KBFTPseudoPad() {};
 
 		virtual bool Init();
-
-	private :
 		
-
+		virtual bool IsInBoundary(Double_t i, Double_t j) {};
+		virtual TH2 * GetHist(Option_t *option = "-1") {};
+		virtual Int_t FindPadID(Double_t i , Double_t j) {};
+		virtual Int_t FindPadID(Int_t section , Int_t row, Int_t layer ){};
+		virtual Double_t PadDisplacement() const {};
+	private :
+	
+		ClassDef(KBFTPseudoPad,1)
 };
+
+

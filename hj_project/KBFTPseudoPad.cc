@@ -6,8 +6,10 @@
 using namespace std;
 using namespace TMath;
 
+ClassImp(KBFTPseudoPad);
+
 KBFTPseudoPad::KBFTPseudoPad()
-:KBPadPlane("FTPseudoPlane","FT-PseudoPlane")
+:KBPadPlane("FT Pad","FT padname")
 {
 }
 
@@ -52,3 +54,4 @@ bool KBFTPseudoPad::Init()
 
 	return true;
 }
+
