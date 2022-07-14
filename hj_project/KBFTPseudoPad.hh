@@ -6,15 +6,15 @@
 
 typedef vector<KBHit*> KBTPCHits;
 
-class KBFTPseudoPlane : pulbic KBPadPlane 
+class KBFTPseudoPad : public KBPadPlane 
 {
 	public :
-		KBFTPseudoPlane();
-		virtual ~KBFTPseudoPlane() {};
+		KBFTPseudoPad();
+		virtual ~KBFTPseudoPad() {};
 
 		virtual bool Init();
 
 	private :
 		
 
-}
+};

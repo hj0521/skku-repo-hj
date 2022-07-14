@@ -1,4 +1,5 @@
 #include "KBFTDetector.hh"
+#include "KBFTPseudoPad.hh"
 
 KBFTDetector::KBFTDetector()
 :KBTpc("FT","Foward detector")
@@ -7,6 +8,7 @@ KBFTDetector::KBFTDetector()
 
 bool KBFTDetector::Init()
 {
+	BuildDetectorPlane();
 	return true;
 }
 
@@ -16,11 +18,9 @@ bool KBFTDetector::BuildDetectorPlane()
 
 	padplane = new KBFTPseudoPad();
 
-	padplane -> SetPlaneID(0);
-	padplane -> SetPlaneK(0);
 	padplane -> Init();
 
-	AddPlane(padplane);
+	//AddPlane(padplane);
 
 	return true;
 	

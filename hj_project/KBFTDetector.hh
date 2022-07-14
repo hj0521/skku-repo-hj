@@ -6,7 +6,7 @@ class KBFTDetector : public KBTpc
 		KBFTDetector();
 		virtual ~KBFTDetector() {};
 
-		virtual Init();
+		virtual bool Init();
 		
 	private : 
 		virtual bool BuildDetectorPlane();
