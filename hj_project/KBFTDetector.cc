@@ -10,6 +10,7 @@ KBFTDetector::KBFTDetector()
 bool KBFTDetector::Init()
 {
 	BuildDetectorPlane();
+	cout << "test..... " << endl;
 	return true;
 }
 
@@ -17,11 +18,10 @@ bool KBFTDetector::BuildDetectorPlane()
 {
 
 	KBPadPlane *padplane = nullptr;
-	KBFTPseudoPad * test = new KBFTPseudoPad();
+	padplane = new KBFTPseudoPad();
 
 	padplane -> Init();
 
-	//padplane -> Init();
 
 	//AddPlane(padplane);
 

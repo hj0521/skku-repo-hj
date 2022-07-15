@@ -19,14 +19,17 @@ bool KBFTPseudoPad::Init()
 	
 	int padID = 0;
 
-	auto fAxis = fPar -> GetParAxis("LHTF_refAxis",0);
 	int layerN = 3;
 	int row = 100;
 	int column = 100;
 
 	auto FTXsize = fPar -> GetParDouble("FTLayerD");
 	auto FTYsize = fPar -> GetParDouble("FTLayerD");
-
+	auto fAxis = fPar -> GetParAxis("LHTF_refAxis",5);
+	
+	//double FTXsize = 950;
+	//double FTYsize = 950;
+	
 	auto fPadWidth = FTXsize/row;
 	auto fPadHeight = FTYsize/column;
 
@@ -41,9 +44,9 @@ bool KBFTPseudoPad::Init()
 				KBPad * pad = new KBPad();
 				double pos_x = fPadWidth * j;
 				double pos_y = fPadHeight * k;
-				KBVector3 posPad(fAxis,pos_x,pos_y,pos_z);
+			//	KBVector3 posPad(fAxis,pos_x,pos_y,pos_z);
 				
-				pad -> SetPosition(posPad);
+			//	pad -> SetPosition(posPad);
 				pad -> SetPadID(padID);
 
 				padID++;
