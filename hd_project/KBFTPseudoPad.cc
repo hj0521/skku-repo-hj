@@ -3,6 +3,11 @@
 #include "TF1.h"
 #include "KBFTPseudoPad.hh"
 
+#include "TMath.h"
+#include "TCollection.h"
+#include "TLine.h"
+
+
 using namespace std;
 using namespace TMath;
 
@@ -13,90 +18,50 @@ KBFTPseudoPad::KBFTPseudoPad()
 
 bool KBFTPseudoPad::Init()
 {
-	TObjArray * fInPadArray = new TObjArray();
+	
+	TObjArray *fInPadArray = new TObjArray();
+	
+	int padID = 0;
 
-	Int_t layerN = 3;
-	Int_t row = 100;
-	Int_t column = 100;
+	auto fAxis = fPar -> GetParAxis("LHTF_refAxis");
+	
+	int layerN = 3;
+	int row = 100;
+	int column = 100;
 
-	Double_t pad_size_x = 10;
-	Double_t pad_size_y = 10;
 
-	for(int layer = 0; i < layerN; layer++)
+//이부분은 다시 살려야함.
+	//Double_t FTXsize = fPar -> GetParDouble("FTLayerD");
+	//Double_t FTYsize = fPar -> GetParDouble("FTLayerD");
+
+	//auto fPadWidth = FTXsize/row;
+	//auto fPadHeight = FTYsize/column;
+
+
+	for(Int_t i = 0; i < layerN; i++)
 	{
-		for(int row =0;row<RowNum;row++ ){
-			KBPad *pad = new KBPad();
-      		Double_t posI = row*(fPadWidth + fPadGap);
-      		Double_t posJ =  layer*(fPadHeight + fPadGap);
+		Double_t pos_z = 950 + 50 * i;
 
-			pad -> SetPlaneID(fPlaneID);
-      		pad -> SetPadID(padID);
+		for(Int_t j = 0; j < row; j++)
+		{
+			for(Int_t k = 0; k < column; k++)
+			{
+				KBPad * pad = new KBPad();
+				//이부분 수정
+				Double_t pos_x = j;
+				Double_t pos_y = k;
+				//
+				KBVector3 posPad(fAxis,pos_x,pos_y,pos_z);
+				
+				pad -> SetPosition(posPad);
+				pad -> SetPadID(padID);
 
-      		pad -> SetAsAdID(asadID);
-      		pad -> SetAGETID(agetID);
-      		pad -> SetChannelID(channelID);
-      		pad -> SetPosition(posPad);
-      		pad -> SetSectionRowLayer(0, row, layer);
-
-
-			auto neighborIndex = PadNeighborIndex(layer, row, padID);
-      		for(int index = 0; index<neighborIndex.size(); index++){
-        		KBPad *padNeighbor = (KBPad *) fChannelArray -> At(neighborIndex[index]);
-        		padNeighbor -> AddNeighborPad(pad);
-        		pad -> AddNeighborPad(padNeighbor);
-			}	
-
-			fChannelArray->Add(pad);
-
-			fNPadsTotal++;
-			padID++;
-			channelID++;
+				padID++;
+			}
 		}
-	}	
-
-	int nPads = fChannelArray->GetEntriesFast();
-
-	for (Int_t iPad =0; iPad<nPads;iPad++){
-		KBPad *pad = (KBPad *) fChannelArray -> At(iPad);
-		pad -> SetPadID(iPad);
-
-		int layerID = pad ->GetLayer();
-		int rowID = pad -> GetRow();
-
-		std::vector<int> key;
-		key.push_back(pad ->GetSection());
-		key.push_back(pad->GetRow());
-		key.push_back(pad -> GetLayer());
-
-		fPadMap.insert(std::pair<std::vector<int>, int>(key,iPad));
+			
 	}
+	
 
 	return true;
-}
-
-Int_t KBFTPseudoPad::FindPadID(int section, int row, int layer){
-	if (section <0 || section>= fNumSections) return -1;
-
-	Int_t nLayers = fNRowsInLayer[section].size();
-  	if (layer < 0 || layer >= nLayers) return -1;
-
-	if (row <  0 || row >= fNRowsInLayer[section][layer]) return -1;
-	
-	std::vector<Int_t> key;
-
-	key.push_back(section);
-	key.push_back(row);
-	key.push_back(layer);
-
-	Int_t id = fPadMap[key];
-
-	return id;
-
-}
-
-Int_t KBFTPseudoPad::FindPadID(Double_t i, Double_t j){
-	Int_t section = FindSection(i,j);
-	if (section ==-1) return -1;
-
-	
 }
